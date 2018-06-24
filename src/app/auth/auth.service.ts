@@ -7,6 +7,8 @@ import { User } from './user.model';
 import { AuthData } from './auth-data.model';
 import { TrainingService } from '../training/training.service';
 import { UIService } from '../shared/ui.service';
+import { Store } from '@ngrx/store';
+import * as fromApp from '../app.reducer';
 
 @Injectable()
 
@@ -18,7 +20,8 @@ export class AuthService {
         private router: Router,
         private afAuth: AngularFireAuth,
         private trainingService: TrainingService,
-        private uiservice: UIService
+        private uiservice: UIService,
+        private store: Store<{ui: fromApp.State}>
     ) { }
 
 
@@ -38,29 +41,36 @@ export class AuthService {
     }
 
     registerUser(authData: AuthData) {
-        this.uiservice.loadingStateChanged.next(true);
+        // this.uiservice.loadingStateChanged.next(true);
+        this.store.dispatch({ type: 'START_LOADING' });
         this.afAuth.auth.createUserWithEmailAndPassword(
             authData.email,
             authData.password
         )
             .then(result => {
-                this.uiservice.loadingStateChanged.next(false);
+                // this.uiservice.loadingStateChanged.next(false);
+            this.store.dispatch({ type: 'STOP_LOADING' });
+
             })
             .catch(error => {
-                this.uiservice.loadingStateChanged.next(false);
+                // this.uiservice.loadingStateChanged.next(false);
+                this.store.dispatch({ type: 'STOP_LOADING' });
                 this.uiservice.showSnackbar(error.message, null, 3500);
             });
     }
 
     login(authData: AuthData) {
-        this.uiservice.loadingStateChanged.next(true);
+        // this.uiservice.loadingStateChanged.next(true);
+        this.store.dispatch({ type: 'START_LOADING' });
         this.afAuth.auth.signInWithEmailAndPassword(
             authData.email,
             authData.password
         ).then(result => {
-            this.uiservice.loadingStateChanged.next(false);
+            this.store.dispatch({ type: 'STOP_LOADING' });
+            // this.uiservice.loadingStateChanged.next(false);
         }).catch(error => {
-            this.uiservice.loadingStateChanged.next(false);
+            this.store.dispatch({ type: 'STOP_LOADING' });
+            // this.uiservice.loadingStateChanged.next(false);
             this.uiservice.showSnackbar(error.message, null, 3500);
         });
     }

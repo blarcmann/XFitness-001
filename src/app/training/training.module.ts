@@ -23,7 +23,8 @@ import { SharedModule } from '../shared/shared.module';
         SharedModule,
         AngularFirestoreModule,
         TrainingRoutingModule
-    ]
+    ],
+    entryComponents: [StopTrainingComponent]
 })
 
 export class TrainingModule {}
