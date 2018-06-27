@@ -18,7 +18,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HeaderComponent } from './navigation/header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
 import { environment } from '../environments/environment';
-import { appReducer } from './app.reducer';
+import { reducers } from './app.reducer';
 
 
 @NgModule({
@@ -38,7 +38,7 @@ import { appReducer } from './app.reducer';
     AngularFireModule.initializeApp(environment.firebase),
     AuthModule,
     SharedModule,
-    StoreModule.forRoot({ui: appReducer})
+    StoreModule.forRoot(reducers)
   ],
   providers: [AuthService, TrainingService, UIService],
   bootstrap: [AppComponent]
