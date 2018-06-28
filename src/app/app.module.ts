@@ -42,6 +42,5 @@ import { reducers } from './app.reducer';
   ],
   providers: [AuthService, TrainingService, UIService],
   bootstrap: [AppComponent]
-  // entryComponents: []
 })
 export class AppModule { }
